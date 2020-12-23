@@ -16,8 +16,6 @@ class PlacesViewController: UIViewController {
     var locationManager: CLLocationManager?
     
     var places = [[String: Any]]()
-    
-    var isQueryPending = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +28,6 @@ class PlacesViewController: UIViewController {
         locationManager?.delegate = self
         locationManager?.startUpdatingLocation()
     }
-    
-    private func queryFoursquare(location: CLLocation) {
-        if isQueryPending { return }
-        isQueryPending = true
-        
-        let clientId = URLQueryItem(name: "client_id", value: Keys.clientID)
-    }
-
 
 }
 
@@ -49,5 +39,7 @@ extension PlacesViewController: CLLocationManagerDelegate {
         let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
         let adjustedRegion = mapView.regionThatFits(region)
         mapView.setRegion(adjustedRegion, animated: true)
+        
+        NetworkManager.shared.queryFoursquare(location: newLocation)
     }
 }
