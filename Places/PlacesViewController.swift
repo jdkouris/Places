@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import MapKit
 
 class PlacesViewController: UIViewController {
+    
+    @IBOutlet var mapView: MKMapView!
+    @IBOutlet var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
