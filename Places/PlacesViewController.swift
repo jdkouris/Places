@@ -14,6 +14,10 @@ class PlacesViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var locationManager: CLLocationManager?
+    
+    var places = [[String: Any]]()
+    
+    var isQueryPending = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,13 @@ class PlacesViewController: UIViewController {
         
         locationManager?.delegate = self
         locationManager?.startUpdatingLocation()
+    }
+    
+    private func queryFoursquare(location: CLLocation) {
+        if isQueryPending { return }
+        isQueryPending = true
+        
+        let clientId = URLQueryItem(name: "client_id", value: Keys.clientID)
     }
 
 
