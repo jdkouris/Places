@@ -61,11 +61,11 @@
 				CC37C98E2592C1FF00B3FDF0 /* AppDelegate.swift */,
 				CC37C9902592C1FF00B3FDF0 /* SceneDelegate.swift */,
 				CC37C9922592C1FF00B3FDF0 /* PlacesViewController.swift */,
+				CC37C9A42592C9B600B3FDF0 /* Keys.swift */,
 				CC37C9942592C1FF00B3FDF0 /* Main.storyboard */,
 				CC37C9972592C20000B3FDF0 /* Assets.xcassets */,
 				CC37C9992592C20000B3FDF0 /* LaunchScreen.storyboard */,
 				CC37C99C2592C20000B3FDF0 /* Info.plist */,
-				CC37C9A42592C9B600B3FDF0 /* Keys.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
