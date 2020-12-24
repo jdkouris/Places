@@ -13,102 +13,39 @@ class PlacesViewController: UIViewController {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     
-    var locationManager: CLLocationManager?
-    
     var places = [[String: Any]]()
     var isQueryPending = false
+    let locationManager = LocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationManager = CLLocationManager()
-        locationManager?.requestWhenInUseAuthorization()
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager?.distanceFilter = 100.0
-        
-        locationManager?.delegate = self
-        locationManager?.startUpdatingLocation()
         
         mapView?.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        locationManager.start { location in
+            self.centerMapView(on: location)
+            self.queryFoursquare(with: location)
+        }
     }
     
-    func queryFoursquare(location: CLLocation) {
-        if isQueryPending { return }
-        isQueryPending = true
-        
-        let clientId        = URLQueryItem(name: "client_id", value: Keys.clientID)
-        let clientSecret    = URLQueryItem(name: "client_secret", value: Keys.clientSecret)
-        let version         = URLQueryItem(name: "v", value: "20190401")
-        let coordinate      = URLQueryItem(name: "ll", value: "\(location.coordinate.latitude),\(location.coordinate.longitude)")
-        let query           = URLQueryItem(name: "query", value: "fitness")
-        let intent          = URLQueryItem(name: "intent", value: "browse")
-        let radius          = URLQueryItem(name: "radius", value: "2000")
-        
-        var urlComponents = URLComponents(string: "https://api.foursquare.com/v2/venues/search")!
-        urlComponents.queryItems = [clientId, clientSecret, version, coordinate, query, intent, radius]
-        
-        let task = URLSession.shared.dataTask(with: urlComponents.url!) { (data, response, error) in
-            defer {
-                self.isQueryPending = false
-            }
-            
-            if error != nil {
-                print("***** ERROR ***** \(error!.localizedDescription)")
-                return
-            }
-            
-            if data == nil || response == nil {
-                print("***** SOMETHING WENT WRONG *****")
-                return
-            }
-            
-            self.places.removeAll()
-            
-            do {
-                let jsonData = try JSONSerialization.jsonObject(with: data!, options: [])
-                
-                if let jsonObject = jsonData as? [String: Any],
-                   let response = jsonObject["response"] as? [String: Any],
-                   let venues = response["venues"] as? [[String: Any]] {
-                    
-                    for venue in venues {
-                        if let name = venue["name"] as? String,
-                           let location = venue["location"] as? [String: Any],
-                           let latitude = location["lat"] as? Double,
-                           let longitude = location["lng"] as? Double,
-                           let formattedAddress = location["formattedAddress"] as? [String] {
-                            
-                            self.places.append([
-                                "name": name,
-                                "address": formattedAddress.joined(separator: " "),
-                                "latitude": latitude,
-                                "longitude": longitude
-                            ])
-                        }
-                    }
-                }
-                
-                self.places.sort() { item1, item2 in
-                    let distance1 = location.distance(from: CLLocation(latitude: item1["latitude"] as! CLLocationDegrees, longitude: item1["longitude"] as! CLLocationDegrees))
-                    let distance2 = location.distance(from: CLLocation(latitude: item2["latitude"] as! CLLocationDegrees, longitude: item2["longitude"] as! CLLocationDegrees))
+    func centerMapView(on location: CLLocation) {
+        guard mapView != nil else { return }
 
-                    return distance1 < distance2
-                }
-                
-            } catch {
-                print("*** JSON ERROR *** \(error.localizedDescription)")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.updatePlaces()
-                self.tableView.reloadData()
-            }
+        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        let adjustedRegion = mapView!.regionThatFits(region)
+
+        mapView!.setRegion(adjustedRegion, animated: true)
+    }
+    
+    func queryFoursquare(with location: CLLocation) {
+        FoursquareAPI.shared.query(location: location) { (places) in
+            self.places = places
+            self.updatePlaces()
+            self.tableView.reloadData()
         }
-        task.resume()
     }
     
     private func updatePlaces() {
@@ -158,19 +95,6 @@ extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
                 mapView.setCenter(annotation.coordinate, animated: true)
             }
         }
-    }
-}
-
-extension PlacesViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard mapView != nil else { return }
-        guard let newLocation = locations.last else { return }
-        
-        let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
-        let adjustedRegion = mapView.regionThatFits(region)
-        mapView.setRegion(adjustedRegion, animated: true)
-        
-        queryFoursquare(location: newLocation)
     }
 }
 
