@@ -43,9 +43,9 @@ class PlacesViewController: UIViewController {
         let clientSecret    = URLQueryItem(name: "client_secret", value: Keys.clientSecret)
         let version         = URLQueryItem(name: "v", value: "20190401")
         let coordinate      = URLQueryItem(name: "ll", value: "\(location.coordinate.latitude),\(location.coordinate.longitude)")
-        let query           = URLQueryItem(name: "query", value: "gym")
+        let query           = URLQueryItem(name: "query", value: "fitness")
         let intent          = URLQueryItem(name: "intent", value: "browse")
-        let radius          = URLQueryItem(name: "radius", value: "500")
+        let radius          = URLQueryItem(name: "radius", value: "2000")
         
         var urlComponents = URLComponents(string: "https://api.foursquare.com/v2/venues/search")!
         urlComponents.queryItems = [clientId, clientSecret, version, coordinate, query, intent, radius]
@@ -166,7 +166,7 @@ extension PlacesViewController: CLLocationManagerDelegate {
         guard mapView != nil else { return }
         guard let newLocation = locations.last else { return }
         
-        let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        let region = MKCoordinateRegion(center: newLocation.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         let adjustedRegion = mapView.regionThatFits(region)
         mapView.setRegion(adjustedRegion, animated: true)
         
