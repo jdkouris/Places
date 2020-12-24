@@ -40,6 +40,7 @@ extension PlacesViewController: CLLocationManagerDelegate {
         let adjustedRegion = mapView.regionThatFits(region)
         mapView.setRegion(adjustedRegion, animated: true)
         
-        NetworkManager.shared.queryFoursquare(location: newLocation)
+        places = NetworkManager.shared.queryFoursquare(location: newLocation)
+        print(places)
     }
 }
