@@ -30,6 +30,9 @@ class PlacesViewController: UIViewController {
         locationManager?.startUpdatingLocation()
         
         mapView?.delegate = self
+        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     func queryFoursquare(location: CLLocation) {
@@ -94,6 +97,7 @@ class PlacesViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.updatePlaces()
+                self.tableView.reloadData()
             }
         }
         task.resume()
@@ -117,6 +121,36 @@ class PlacesViewController: UIViewController {
         }
     }
 
+}
+
+extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return places.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath)
+        
+        cell.textLabel?.text = places[indexPath.row]["name"] as? String
+        cell.detailTextLabel?.text = places[indexPath.row]["address"] as? String
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard mapView != nil else { return }
+        
+        guard let tappedName = places[indexPath.row]["name"] as? String else { return }
+        
+        for annotation in mapView.annotations {
+            mapView.deselectAnnotation(annotation, animated: true)
+            
+            if tappedName == annotation.title {
+                mapView.selectAnnotation(annotation, animated: true)
+                mapView.setCenter(annotation.coordinate, animated: true)
+            }
+        }
+    }
 }
 
 extension PlacesViewController: CLLocationManagerDelegate {
