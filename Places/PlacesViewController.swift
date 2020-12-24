@@ -90,6 +90,14 @@ class PlacesViewController: UIViewController {
                         }
                     }
                 }
+                
+                self.places.sort() { item1, item2 in
+                    let distance1 = location.distance(from: CLLocation(latitude: item1["latitude"] as! CLLocationDegrees, longitude: item1["longitude"] as! CLLocationDegrees))
+                    let distance2 = location.distance(from: CLLocation(latitude: item2["latitude"] as! CLLocationDegrees, longitude: item2["longitude"] as! CLLocationDegrees))
+
+                    return distance1 < distance2
+                }
+                
             } catch {
                 print("*** JSON ERROR *** \(error.localizedDescription)")
                 return
