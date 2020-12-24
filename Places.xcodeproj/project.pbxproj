@@ -14,7 +14,7 @@
 		CC37C9982592C20000B3FDF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC37C9972592C20000B3FDF0 /* Assets.xcassets */; };
 		CC37C99B2592C20000B3FDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC37C9992592C20000B3FDF0 /* LaunchScreen.storyboard */; };
 		CC37C9A52592C9B600B3FDF0 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC37C9A42592C9B600B3FDF0 /* Keys.swift */; };
-		CC37C9AA2592CDB900B3FDF0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC37C9A92592CDB900B3FDF0 /* NetworkManager.swift */; };
+		CC37C9AA2592CDB900B3FDF0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC37C9A92592CDB900B3FDF0 /* LocationManager.swift */; };
 		CC37C9AE25954CCC00B3FDF0 /* FoursquareAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC37C9AD25954CCB00B3FDF0 /* FoursquareAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +28,7 @@
 		CC37C99A2592C20000B3FDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC37C99C2592C20000B3FDF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC37C9A42592C9B600B3FDF0 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
-		CC37C9A92592CDB900B3FDF0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		CC37C9A92592CDB900B3FDF0 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CC37C9AD25954CCB00B3FDF0 /* FoursquareAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoursquareAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,7 +65,7 @@
 				CC37C98E2592C1FF00B3FDF0 /* AppDelegate.swift */,
 				CC37C9902592C1FF00B3FDF0 /* SceneDelegate.swift */,
 				CC37C9922592C1FF00B3FDF0 /* PlacesViewController.swift */,
-				CC37C9A92592CDB900B3FDF0 /* NetworkManager.swift */,
+				CC37C9A92592CDB900B3FDF0 /* LocationManager.swift */,
 				CC37C9AD25954CCB00B3FDF0 /* FoursquareAPI.swift */,
 				CC37C9A42592C9B600B3FDF0 /* Keys.swift */,
 				CC37C9942592C1FF00B3FDF0 /* Main.storyboard */,
@@ -149,7 +149,7 @@
 				CC37C9932592C1FF00B3FDF0 /* PlacesViewController.swift in Sources */,
 				CC37C9AE25954CCC00B3FDF0 /* FoursquareAPI.swift in Sources */,
 				CC37C9A52592C9B600B3FDF0 /* Keys.swift in Sources */,
-				CC37C9AA2592CDB900B3FDF0 /* NetworkManager.swift in Sources */,
+				CC37C9AA2592CDB900B3FDF0 /* LocationManager.swift in Sources */,
 				CC37C98F2592C1FF00B3FDF0 /* AppDelegate.swift in Sources */,
 				CC37C9912592C1FF00B3FDF0 /* SceneDelegate.swift in Sources */,
 			);
